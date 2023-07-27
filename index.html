@@ -9,47 +9,57 @@
 </head>
 
 <body>
-  <div class="canavs-container">
-    <canvas></canvas>
+  <div class="app-container">
+    <div class="row">
+      <div class="column">
+        <div class="canavs-container">
+          <canvas></canvas>
+        </div>
+      </div>
+      <div class="column">
+        <div class="tool-container">
+          <div class="draw-container">
+            <p>LINE</p>
+            <input type="range" id="input-line-width" min="1" max="10" value="1" step="0.1" />
+          </div>
+          <div class="fill-container">
+            <p>Fill</p>
+            <button id="mode-btn">Fill</button>
+          </div>
+          <div class="color-container">
+            <p>COLOR</p>
+            <input type="color" id="color" />
+            <div class="color-option" data-color="#55efc4" style="background-color: #55efc4;"></div>
+            <div class="color-option" data-color="#00cec9" style="background-color: #00cec9;"></div>
+            <div class="color-option" data-color="#0984e3" style="background-color: #0984e3;"></div>
+            <div class="color-option" data-color="#6c5ce7" style="background-color: #6c5ce7;"></div>
+            <div class="color-option" data-color="#fd79a8" style="background-color: #fd79a8;"></div>
+            <div class="color-option" data-color="#ff7675" style="background-color: #ff7675;"></div>
+            <div class="color-option" data-color="#fab1a0" style="background-color: #fab1a0;"></div>
+          </div>
+          <div class="button-container">
+            <p>ERASER</p>
+            <button id="destroy-btn">Destroy</button>
+            <button id="eraser-btn">Eraser</button>
+          </div>
+          <div class="file-container">
+            <p>FILE</p>
+            <input type="file" accept="image/*" id="file" />
+          </div>
+          <div class="text-container">
+            <p>TEXT</p>
+            <input type="range" id="input-font-width" min="16" max="30" value="16" step="1" />
+            <input type="text" placeholder="Write and then double click" id="text" />
+          </div>
+          <div class="save-container">
+            <button id="save">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="tool-container">
-    <div class="draw-container">
-      <p>LINE</p>
-      <input type="range" id="input-line-width" min="1" max="10" value="1" step="0.1" />
-    </div>
-    <div class="fill-container">
-      <p>Fill</p>
-      <button id="mode-btn">Fill</button>
-    </div>
-    <div class="color-container">
-      <p>COLOR</p>
-      <input type="color" id="color" />
-      <div class="color-option" data-color="#55efc4" style="background-color: #55efc4;"></div>
-      <div class="color-option" data-color="#00cec9" style="background-color: #00cec9;"></div>
-      <div class="color-option" data-color="#0984e3" style="background-color: #0984e3;"></div>
-      <div class="color-option" data-color="#6c5ce7" style="background-color: #6c5ce7;"></div>
-      <div class="color-option" data-color="#fd79a8" style="background-color: #fd79a8;"></div>
-      <div class="color-option" data-color="#ff7675" style="background-color: #ff7675;"></div>
-      <div class="color-option" data-color="#fab1a0" style="background-color: #fab1a0;"></div>
-    </div>
-    <div class="button-container">
-      <p>ERASER</p>
-      <button id="destroy-btn">Destroy</button>
-      <button id="eraser-btn">Eraser</button>
-    </div>
-    <div class="file-container">
-      <p>FILE</p>
-      <input type="file" accept="image/*" id="file" />
-    </div>
-    <div class="text-container">
-      <p>TEXT</p>
-      <input type="range" id="input-font-width" min="16" max="30" value="16" step="1" />
-      <input type="text" placeholder="Write and then double click" id="text" />
-    </div>
-    <div class="save-container">
-      <button id="save">Save</button>
-    </div>
-  </div>
+
+
   <script src="app.js"></script>
 </body>
 
