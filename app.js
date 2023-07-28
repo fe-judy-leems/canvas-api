@@ -1,15 +1,18 @@
 const lineWidth = document.querySelector("#input-line-width");
 const textSize = document.querySelector("#input-font-width");
-const modeBtn = document.querySelector("#mode-button");
+
 const fileInput = document.querySelector("#file");
 const textInput = document.querySelector("#text");
 const saveButton = document.querySelector("#save");
-const destroyBtn = document.querySelector("#destroy-button");
-const eraserBtn = document.querySelector("#eraser-button");
-const rulerBtn = document.querySelector("#ruler-button");
+const modeButton = document.querySelector("#mode-button");
+const destroyButton = document.querySelector("#destroy-button");
+const eraserButton = document.querySelector("#eraser-button");
+const rulerButton = document.querySelector("#ruler-button");
 const colorOptions = Array.from(document.querySelectorAll(".color-option"));
 const color = document.querySelector("#color");
 const canvas = document.querySelector("canvas");
+
+
 const ctx = canvas.getContext("2d");
 
 canvas.width = 800;
@@ -31,15 +34,28 @@ function onMove(event) {
     return;
   }
   ctx.moveTo(event.offsetX, event.offsetY);
+  console.dir(event.target)
 }
 
 function startPainting() {
   isPainting = true;
+  if (isRulering) {
+    isPainting = false;
+    ctx.beginPath()
+    ctx.strokeStyle = "red"
+    ctx.rect(event.offsetX, event.offsetY, 1, 1);
+    ctx.setLineDash([10, 10])
+    ctx.stroke();
+  }
+  console.log("start painting")
 }
 
 function cancelPainting() {
   isPainting = false;
+  isRulering = false;
+  isFilling = false;
   ctx.beginPath();
+  console.log("end painting")
 }
 
 function onLineWidthChage(event) {
@@ -60,25 +76,25 @@ function onColorClick(event) {
 
 function onRulerClick() {
   if(isRulering) {
-    rulerBtn.innerHTML = "Start Ruler"
-    modeBtn.removeAttribute("disabled")
-
+    rulerButton.innerHTML = "Start Ruler"
+    modeButton.removeAttribute("disabled")
   } else {
     isFilling = false;
     isPainting = false;
-    rulerBtn.innerHTML = "Ruler mode"
-    modeBtn.setAttribute("disabled", "disabled")
-    // 여기서 canvas mousemove, mousedown, mouseup event setting
+    isRulering = true;
+    rulerButton.innerHTML = "Ruler mode"
+    modeButton.setAttribute("disabled", "disabled")
+    console.log("aaaaaaaa")
   }
 }
 
 function onModeClick() {
   if (isFilling) {
     isFilling = false;
-    modeBtn.innerHTML = "Fill";
+    modeButton.innerHTML = "Fill";
   } else {
     isFilling = true;
-    modeBtn.innerHTML = "Draw";
+    modeButton.innerHTML = "Draw";
   }
 }
 
@@ -96,7 +112,7 @@ function onDestoryClick() {
 function onEraserClick() {
   ctx.strokeStyle = "white";
   ifFilling = false;
-  modeBtn.innerHTML = "Fill";
+  modeButton.innerHTML = "Fill";
 }
 
 function onFileChage(event) {
@@ -146,15 +162,16 @@ color.addEventListener("change", onColorChage);
 
 colorOptions.forEach((color) => color.addEventListener("click", onColorClick));
 
-modeBtn.addEventListener("click", onModeClick);
-destroyBtn.addEventListener("click", onDestoryClick);
-eraserBtn.addEventListener("click", onEraserClick);
-rulerBtn.addEventListener("click", onRulerClick)
+modeButton.addEventListener("click", onModeClick);
+destroyButton.addEventListener("click", onDestoryClick);
+eraserButton.addEventListener("click", onEraserClick);
+rulerButton.addEventListener("click", onRulerClick)
+saveButton.addEventListener("click", onSaveClick);
 
 fileInput.addEventListener("change", onFileChage);
 textSize.addEventListener("change", onChageText);
 
-saveButton.addEventListener("click", onSaveClick);
+
 
 document.addEventListener("DOMContentLoaded", () => {
   color.value =
