@@ -31,18 +31,27 @@ function onMove(event) {
   if (isPainting) {
     ctx.lineTo(event.offsetX, event.offsetY);
     ctx.stroke();
+    console.log("painting!!!!!")
     return;
   }
   if(isRulering) {
     isFilling = false;
     isPainting = false;
-    console.log("ruler mode")
+    ctx.beginPath()
+    ctx.strokeStyle = "red"
+    ctx.lineWidth = "1"
+    ctx.moveTo(event.offsetX, event.offsetY)
+    ctx.setLineDash([10, 10])
+    ctx.stroke();
+    ctx.closePath();
+    console.log("ruler!!!!!")
   }
-  ctx.moveTo(event.offsetX, event.offsetY);
+  //ctx.moveTo(event.offsetX, event.offsetY);
 }
 
 function startPainting() {
   isPainting = true;
+
   if(isRulering) {
     isFilling = false;
     isPainting = false;
