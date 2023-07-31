@@ -1,5 +1,6 @@
 const lineWidth = document.querySelector("#input-line-width");
 const textSize = document.querySelector("#input-font-width");
+
 const fileInput = document.querySelector("#file");
 const textInput = document.querySelector("#text");
 const saveButton = document.querySelector("#save");
@@ -11,14 +12,16 @@ const colorOptions = Array.from(document.querySelectorAll(".color-option"));
 const color = document.querySelector("#color");
 const canvas = document.querySelector("canvas");
 
+
 const ctx = canvas.getContext("2d");
 
 canvas.width = 800;
 canvas.height = 800;
 ctx.lineWidth = lineWidth.value;
 ctx.lineCap = "round";
-let isPainting = false; // isPainting true일때만 그림을 그릴것
+let isPainting = false;
 let isFilling = false;
+let isRulering = false;
 
 const CANVAS_WIDTH = canvas.width;
 const CANVAS_HEIGHT = canvas.height;
@@ -28,19 +31,69 @@ function onMove(event) {
   if (isPainting) {
     ctx.lineTo(event.offsetX, event.offsetY);
     ctx.stroke();
+    console.log("painting!!!!!")
     return;
   }
-  ctx.moveTo(event.offsetX, event.offsetY);
+  if(isRulering) {
+    isFilling = false;
+    isPainting = false;
+    ctx.beginPath()
+    ctx.strokeStyle = "red"
+    ctx.lineWidth = "1"
+    ctx.moveTo(event.offsetX, event.offsetY)
+    ctx.setLineDash([10, 10])
+    ctx.stroke();
+    ctx.closePath();
+    console.log("ruler!!!!!")
+  }
+  //ctx.moveTo(event.offsetX, event.offsetY);
 }
 
 function startPainting() {
   isPainting = true;
+
+  if(isRulering) {
+    isFilling = false;
+    isPainting = false;
+    console.log("ruler mode start")
+  }
+
+  // if (isRulering) {
+  //   isPainting = false;
+  //   ctx.beginPath()
+  //   ctx.strokeStyle = "red"
+  //   ctx.moveTo(event.offsetX, event.offsetY);
+  //   ctx.lineTo(event.offsetX, event.offsetY);
+  //   ctx.setLineDash([10, 10])
+  //   ctx.stroke();
+  //   ctx.closePath();
+  // }
 }
 
 function cancelPainting() {
   isPainting = false;
+  isRulering = false;
+  isFilling = false;
   ctx.beginPath();
+  console.log("end painting")
 }
+
+function onRulerClick() {
+  if(isRulering) {
+    isFilling = false;
+    isPainting = false;
+    isRulering = false;
+    rulerButton.innerHTML = "Start Ruler";
+    modeButton.removeAttribute("disabled");
+  } else {
+    isFilling = false;
+    isPainting = false;
+    isRulering = true;
+    rulerButton.innerHTML = "Ruler mode";
+    modeButton.setAttribute("disabled", "disabled");
+  }
+}
+
 
 function onLineWidthChage(event) {
   ctx.lineWidth = event.target.value;
@@ -105,7 +158,6 @@ function onDoubleClick(event) {
 }
 
 function onChageText(event) {
-  console.log(event.target.value);
   ctx.font = `${event.target.value}px ${FONT_FAMILY}`;
 }
 
@@ -113,10 +165,12 @@ function onSaveClick() {
   const url = canvas.toDataURL();
   const a = document.createElement("a");
   a.href = url;
-
   a.download = "myDrawing.png";
   a.click();
 }
+
+
+
 
 canvas.addEventListener("dblclick", onDoubleClick);
 canvas.addEventListener("mousemove", onMove);
@@ -134,11 +188,13 @@ colorOptions.forEach((color) => color.addEventListener("click", onColorClick));
 modeButton.addEventListener("click", onModeClick);
 destroyButton.addEventListener("click", onDestoryClick);
 eraserButton.addEventListener("click", onEraserClick);
+rulerButton.addEventListener("click", onRulerClick)
+saveButton.addEventListener("click", onSaveClick);
 
 fileInput.addEventListener("change", onFileChage);
 textSize.addEventListener("change", onChageText);
 
-saveButton.addEventListener("click", onSaveClick);
+
 
 document.addEventListener("DOMContentLoaded", () => {
   color.value =
