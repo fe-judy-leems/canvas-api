@@ -8,20 +8,21 @@ class Line {
     }
 
     draw(ctx) {
-        console.log(this.point.x, this.point.y);
         if (this.point.x === undefined || this.point.y === undefined) {
             ctx.fillStyle = 'transparent';
         } else {
             ctx.fillStyle = '#7e0000';
         }
-        ctx.beginPath();
-        ctx.arc(this.point.x, this.point.y, 10, 0, Math.PI * 2, true);
-        ctx.fill();
-        ctx.closePath();
+        if (this.point.x !== undefined && this.point.y !== undefined) {
+          ctx.beginPath();
+          ctx.arc(this.point.x, this.point.y, 10, 0, Math.PI * 2, true);
+          ctx.fill();
+          ctx.closePath();
 
-        this.drawLine(ctx);
-        this.drawLastPoint(ctx);
-    } 
+          this.drawLine(ctx);
+          this.drawLastPoint(ctx);
+        }
+    }
 
     drawLine(ctx) {
         ctx.beginPath();
